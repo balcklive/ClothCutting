@@ -5,12 +5,11 @@
 
 ## 环境依赖
 
-- Microsoft Visual Studio 2017
-- `Lib/`
-  - [Boost Geometry 1.65.1](http://www.boost.org/doc/libs/1_65_1/libs/geometry/doc/html/index.html)：header-only-library，附加包含目录已追踪，下载 [boost.zip](https://github.com/zjl9959/ClothCutting/releases) 并解压至 `Lib/` 目录
-  - [Clipper](http://www.angusj.com/delphi/clipper.php)：附加包含目录已追踪
-  - [libnfporb](https://github.com/martinhansdk/libnfporb)：用于生成 nfp 的 header-only-library，附加包含目录已追踪
-- Cmake
+- CMake (版本 3.10 或更高)
+- GCC/G++ (支持 C++14)
+- Boost 库 (包括 Geometry)
+- Clipper 库 (已包含在项目中)
+- libnfporb (已包含在项目中)
 
 
 
@@ -36,3 +35,25 @@ libnfporb 参考论文：[E.K. Burke *et al.* 2006](http://citeseerx.ist.psu.edu
 
 Ps：目前实现的是基于可行解的贪心放置策略，几何运算开销较大，理论上基于不可行解的重叠消除效果可能更好。
 
+
+
+## 编译步骤
+
+1. 安装依赖:
+   ```
+   sudo apt-get update
+   sudo apt-get install cmake g++ libboost-all-dev
+   ```
+
+2. 编译项目:
+   ```
+   mkdir build
+   cd build
+   cmake ..
+   make
+   ```
+
+3. 运行程序:
+   ```
+   ./ClothCutting
+   ```
