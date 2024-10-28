@@ -1,4 +1,4 @@
-#include "Solver.h"
+#include "solver.h"
 #include <random>
 #include <chrono>
 
@@ -36,7 +36,7 @@ void Solver::preprocess(List<Piece>& origin_pieces) {
 		while (amount) {
 			Piece piece;
 			for (auto &each_xy : input.items[i].raw_coords) {
-				bg::append(piece.poly.outer(), point_t(each_xy.x, each_xy.y)); // ËãÀýÖ»ÓÐÍâ»·
+				bg::append(piece.poly.outer(), point_t(each_xy.x, each_xy.y)); // ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½â»·
 			}
 			piece.id = piece_index;
 			pieceIdMap[piece_index++] = i;
@@ -49,7 +49,7 @@ void Solver::preprocess(List<Piece>& origin_pieces) {
 }
 
 /*
-* ½«ËùÓÐ¶à±ßÐÎÆ½ÒÆµ½×ø±êÔ­µã´¦
+* ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½Æ½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ã´¦
 */
 void Solver::zeroAll(const List<Piece>& in_pieces, List<Piece>& out_pieces) {
 	out_pieces.reserve(in_pieces.size());
@@ -61,7 +61,7 @@ void Solver::zeroAll(const List<Piece>& in_pieces, List<Piece>& out_pieces) {
 }
 
 /*
-* ËùÓÐ¶à±ßÐÎ¼ò»¯
+* ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Î¼ï¿½
 */
 void Solver::cleanAll(const List<Piece>& in_pieces, List<Piece>& out_pieces) {
 	out_pieces.reserve(in_pieces.size());
@@ -73,7 +73,7 @@ void Solver::cleanAll(const List<Piece>& in_pieces, List<Piece>& out_pieces) {
 }
 
 /*
-* ËùÓÐ¶à±ßÐÎÏòÍâÅòÕÍ 1/2 Gap
+* ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1/2 Gap
 */
 void Solver::offsetAll(const List<Piece>& in_pieces, List<Piece>& out_pieces) {
 	out_pieces.reserve(in_pieces.size());
@@ -85,7 +85,7 @@ void Solver::offsetAll(const List<Piece>& in_pieces, List<Piece>& out_pieces) {
 }
 
 /*
-* ¼ìË÷¿ÉÒÔ·ÅÖÃÔÚ bin ÉÏµÄ pieces ºòÑ¡¼¯ºÏ
+* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ bin ï¿½Ïµï¿½ pieces ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½
 */
 List<ID> Solver::placeCheck(const box_t &bin) {
 	auto bin_width = bin.max_corner().x() - bin.min_corner().x();
@@ -108,13 +108,13 @@ List<ID> Solver::placeCheck(const box_t &bin) {
 }
 
 /*
-* Ëæ»úÒ»¸öºÏ·¨µÄÐý×ª½Ç¶È£¬Ö´ÐÐÐý×ª²Ù×÷
+* ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½Ç¶È£ï¿½Ö´ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½
 */
 bool Solver::rotateCheck(const box_t & bin, Piece & piece) {
 	auto bin_width = bin.max_corner().x() - bin.min_corner().x();
 	auto bin_height = bin.max_corner().y() - bin.min_corner().y();
 	List<Angle> candidate_angles = input.items[pieceIdMap[piece.id]].rotateAngles;
-	// candidate_angles ÁÐ±íÏ´ÅÆ
+	// candidate_angles ï¿½Ð±ï¿½Ï´ï¿½ï¿½
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::shuffle(candidate_angles.begin(), candidate_angles.end(), std::default_random_engine(seed));
 	for (Angle each_angle : candidate_angles) {
@@ -125,7 +125,7 @@ bool Solver::rotateCheck(const box_t & bin, Piece & piece) {
 		auto width = rect.first, height = rect.second;
 		if (width < bin_width && height < bin_height) {
 			piece.rotation = each_angle;
-			piece.poly = rotate_poly; // Ö´ÐÐÐý×ª²Ù×÷
+			piece.poly = rotate_poly; // Ö´ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½
 			return true;
 		}
 	}
@@ -133,7 +133,7 @@ bool Solver::rotateCheck(const box_t & bin, Piece & piece) {
 }
 
 /*
-* Ò»´ÎÌ°ÐÄµü´ú
+* Ò»ï¿½ï¿½Ì°ï¿½Äµï¿½ï¿½ï¿½
 */
 void Solver::greedyWorker(const box_t &bin, const List<ID>& candidate_index) {
 	List<Piece> candidate_pieces;
@@ -141,7 +141,7 @@ void Solver::greedyWorker(const box_t &bin, const List<ID>& candidate_index) {
 	sort(candidate_pieces.begin(), candidate_pieces.end(),
 		[](Piece &lhs, Piece &rhs) { return bg::area(lhs.poly) > bg::area(rhs.poly); });
 	for (auto &piece : candidate_pieces) {
-		if (!rotateCheck(bin, piece)) { // ´ËÊ±¶à±ßÐÎÒÑÐý×ª
+		if (!rotateCheck(bin, piece)) { // ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ª
 			std::cout << "rotate piece " << piece.id << " has no legal angle." << std::endl;
 		}
 	}
@@ -161,8 +161,8 @@ void Solver::greedyWorker(const box_t &bin, const List<ID>& candidate_index) {
 	HashMap<String, polygon_t> nfp_cache;
 	for (auto &each_pair : nfp_pairs) { nfp_cache[each_pair.nfp_key] = each_pair.nfp; }
 
-	List<Piece> placed_pieces;   // ÒÑ·ÅÖÃµÄÁã¼þ
-	List<Vector> placed_vectors; // ¶ÔÓ¦Ê¸Á¿
+	List<Piece> placed_pieces;   // ï¿½Ñ·ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½
+	List<Vector> placed_vectors; // ï¿½ï¿½Ó¦Ê¸ï¿½ï¿½
 	placeWorker(bin, nfp_cache, candidate_pieces, placed_pieces, placed_vectors);
 
 #pragma region ApplyPlacement
@@ -175,28 +175,28 @@ void Solver::greedyWorker(const box_t &bin, const List<ID>& candidate_index) {
 }
 
 /*
-* ½«ºòÑ¡ÎïÆ· candidate_pieces ·Åµ½ bin ÉÏ
-* List<Piece> placed_pieces;   // ÒÑ·ÅÖÃµÄÁã¼þ
-* List<Vector> placed_vectors; // ¶ÔÓ¦Ê¸Á¿
+* ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Æ· candidate_pieces ï¿½Åµï¿½ bin ï¿½ï¿½
+* List<Piece> placed_pieces;   // ï¿½Ñ·ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½
+* List<Vector> placed_vectors; // ï¿½ï¿½Ó¦Ê¸ï¿½ï¿½
 */
 double Solver::placeWorker(const box_t &bin, const HashMap<String, polygon_t>& nfp_cache, 
 						   List<Piece>& candidate_pieces, List<Piece>& placed_pieces, List<Vector>& placed_vectors) {
-	double fitness = 0;  // ÖÖÈºËã·¨ÖÐÖÖÈºµÄÊÊÓ¦¶È
+	double fitness = 0;  // ï¿½ï¿½Èºï¿½ã·¨ï¿½ï¿½ï¿½ï¿½Èºï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½
 	
-	double min_obj_width = DistanceMax;  // Ä¿±ê£º×îÐ¡»¯µ±Ç°ÒÑÊ¹ÓÃµÄÃæÁÏ¿í¶È£¬¼´×îÓÒ²à×ø±ê
+	double min_obj_width = DistanceMax;  // Ä¿ï¿½ê£ºï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	// ¿ªÊ¼Ò»¿éÐÂÁã¼þµÄ·ÅÖÃ
+	// ï¿½ï¿½Ê¼Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 	for (auto &curr_piece : candidate_pieces) {
 		String key;
 #pragma region NfpExistChecker
-		// ¼ì²é Inner Fit Polygon (bin_nfp)
+		// ï¿½ï¿½ï¿½ Inner Fit Polygon (bin_nfp)
 		key = getNfpKey(curr_piece);
 		if (nfp_cache.find(key) == nfp_cache.end()) {
 			std::cout << "Inner Fit Polygon doesn't exist: " + key << std::endl;
 			continue;
 		}
 		polygon_t bin_nfp = nfp_cache.at(key);
-		// ¼ì²é curr_piece ÓëËùÓÐÒÑ·ÅÖÃµÄ placed_pieces Ö®¼äÓÐ No Fit Polygon
+		// ï¿½ï¿½ï¿½ curr_piece ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½Ãµï¿½ placed_pieces Ö®ï¿½ï¿½ï¿½ï¿½ No Fit Polygon
 		bool error = false;
 		for (auto &each_placed_piece : placed_pieces) {
 			key = getNfpKey(each_placed_piece, curr_piece);
@@ -213,12 +213,12 @@ double Solver::placeWorker(const box_t &bin, const HashMap<String, polygon_t>& n
 			
 		Vector curr_vector;
 #pragma region FirstPiece
-		// ·ÅÖÃµÚÒ»¿éÁã¼þ
+		// ï¿½ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (placed_pieces.empty()) {
 			curr_vector.x = DistanceMax;
-			auto & refer_point = curr_piece.poly.outer()[0]; // ²Î¿¼µã
+			auto & refer_point = curr_piece.poly.outer()[0]; // ï¿½Î¿ï¿½ï¿½ï¿½
 			for (auto &nfp_point : bin_nfp.outer()) {
-				// Ñ°ÕÒ nfp ×î×ó±ßµÄÎ»ÖÃ£¬°Ú·Å×ø±êºÍÔ­Ê¼×ø±êÖ®¼ä×ª»»ÓÃÊ¸Á¿
+				// Ñ°ï¿½ï¿½ nfp ï¿½ï¿½ï¿½ï¿½ßµï¿½Î»ï¿½Ã£ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Ê¸ï¿½ï¿½
 				if (nfp_point.x() - refer_point.x() < curr_vector.x) {
 					curr_vector = Vector(
 						curr_piece.id,
@@ -241,12 +241,12 @@ double Solver::placeWorker(const box_t &bin, const HashMap<String, polygon_t>& n
 		Clipper clipperDifference;
 
 		/*
-		* bin_nfp ×ª»»³É clipper paths£¬¼´ clipperBinNfp.
+		* bin_nfp ×ªï¿½ï¿½ï¿½ï¿½ clipper pathsï¿½ï¿½ï¿½ï¿½ clipperBinNfp.
 		*/
 		Paths clipperBinNfp = boost2ClipperPolygon(bin_nfp);
 
 		/* 
-		* nfp ×ª»»³É clipper paths, Çó²¢¼¯µÃµ½ clipperUnionNfp.
+		* nfp ×ªï¿½ï¿½ï¿½ï¿½ clipper paths, ï¿½ó²¢¼ï¿½ï¿½Ãµï¿½ clipperUnionNfp.
 		*/
 		for (int j = 0; j < placed_pieces.size(); ++j) {
 			key = getNfpKey(placed_pieces[j], curr_piece);
@@ -265,7 +265,7 @@ double Solver::placeWorker(const box_t &bin, const HashMap<String, polygon_t>& n
 		}
 
 		/*
-		* clipperBinNfp ¾­ clipperUnionNfp ²Ã¼ô£¨Çó²î¼¯£©µÃµ½ clipperFinalNfp.
+		* clipperBinNfp ï¿½ï¿½ clipperUnionNfp ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½î¼¯ï¿½ï¿½ï¿½Ãµï¿½ clipperFinalNfp.
 		*/
 		clipperDifference.AddPaths(clipperBinNfp, PolyType::ptSubject, true);
 		clipperDifference.AddPaths(clipperUnionNfp, PolyType::ptClip, true);
@@ -292,10 +292,10 @@ double Solver::placeWorker(const box_t &bin, const HashMap<String, polygon_t>& n
 #pragma endregion ClipperExecute
 
 #pragma region Placement
-		double min_eval_width = DistanceMax; // ÆÀ¹Àµ±Ç°·ÅÖÃ·½°¸µÄÖ¸±ê£º¿í¶È/Ãæ»ý/×îÓÒ²à×ø±ê
+		double min_eval_width = DistanceMax; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ê£ºï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½
 		double min_shift_X = DistanceMax;
 			
-		// placed_pieces ×ø±êÆ«ÒÆ£¬¼ÇÂ¼È«¾Ö¾ØÐÎ°üÂç
+		// placed_pieces ï¿½ï¿½ï¿½ï¿½Æ«ï¿½Æ£ï¿½ï¿½ï¿½Â¼È«ï¿½Ö¾ï¿½ï¿½Î°ï¿½ï¿½ï¿½
 		double left = bin.max_corner().x(),
 				right = bin.min_corner().x(),
 				bottom = bin.max_corner().y(),
@@ -314,14 +314,14 @@ double Solver::placeWorker(const box_t &bin, const HashMap<String, polygon_t>& n
 			top = envelope.max_corner().y() > top ? envelope.max_corner().y() : top;
 		}
 
-		// ÔÚ final_nfp µÄÃ¿¸ö¶¥µãÉÏ·ÅÖÃÁã¼þ
+		// ï¿½ï¿½ final_nfp ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<ring_t> final_nfp; 
 		final_nfp.reserve(clipperFinalNfp.size());
 		for (auto & each_path : clipperFinalNfp) {
 			final_nfp.push_back(clipper2BoostRing(each_path));
 		}
 		for (auto & nfp_ring : final_nfp) {
-			auto & refer_point = curr_piece.poly.outer()[0]; // ²Î¿¼µã
+			auto & refer_point = curr_piece.poly.outer()[0]; // ï¿½Î¿ï¿½ï¿½ï¿½
 			for (auto & nfp_point : nfp_ring) {
 				Vector shift_vector(
 					curr_piece.id,
@@ -330,7 +330,7 @@ double Solver::placeWorker(const box_t &bin, const HashMap<String, polygon_t>& n
 					curr_piece.rotation
 				);
 
-				// curr_piece ×ø±êÆ«ÒÆ£¬¸üÐÂ¾ØÐÎ°üÂç
+				// curr_piece ï¿½ï¿½ï¿½ï¿½Æ«ï¿½Æ£ï¿½ï¿½ï¿½ï¿½Â¾ï¿½ï¿½Î°ï¿½ï¿½ï¿½
 				polygon_t shift_piece;
 				for (auto & each_point : curr_piece.poly.outer()) {
 					bg::append(shift_piece.outer(), point_t(each_point.x() + shift_vector.x,
@@ -345,11 +345,11 @@ double Solver::placeWorker(const box_t &bin, const HashMap<String, polygon_t>& n
 				auto eval_width = right - left;
 				if (!almostEqual(eval_width, min_eval_width) && eval_width < min_eval_width
 					|| almostEqual(eval_width, min_eval_width) && shift_vector.x < min_shift_X) {
-					// ÆÀ¼ÛÖµ¸üÐÂ
+					// ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
 					min_eval_width = eval_width;
 					min_shift_X = shift_vector.x;
 					curr_vector = shift_vector;
-					// Ä¿±êÖµ¸üÐÂ
+					// Ä¿ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
 					min_obj_width = min_eval_width;
 				}
 			}
@@ -360,12 +360,12 @@ double Solver::placeWorker(const box_t &bin, const HashMap<String, polygon_t>& n
 	}
 
 	fitness += min_obj_width / (bin.max_corner().x() - bin.min_corner().x());
-	// Èç¹ûÔÚÒ»¿éÃæÁÏÉÏÍê³ÉÅÅÁÏ£¬candidate_pieces »á±»Çå¿Õ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï£ï¿½candidate_pieces ï¿½á±»ï¿½ï¿½ï¿½
 	for (auto & placed_piece : placed_pieces) {
 		candidate_pieces.erase(std::find(candidate_pieces.begin(), candidate_pieces.end(), placed_piece));
 	}
 
-	fitness += candidate_pieces.size(); // ´æÔÚ¿ÕÃæÁÏ·Å²»ÏÂµÄÁã¼þ£¨²»ºÏ·¨Áã¼þ£©
+	fitness += candidate_pieces.size(); // ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½Ï·Å²ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	return fitness;
 }
 
@@ -375,7 +375,7 @@ void Solver::saveOutput() {
 		each_item.res_coords.clear();
 		each_item.res_coords.reserve(each_item.raw_coords.size());
 		for (auto &each_xy : each_item.raw_coords) {
-			// ³õÈüÔÝÊ±Ö»¿¼ÂÇ 0 ºÍ 180 Ðý×ª
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ö»ï¿½ï¿½ï¿½ï¿½ 0 ï¿½ï¿½ 180 ï¿½ï¿½×ª
 			if (each_piece.rotation == 180) {
 				each_item.res_coords.push_back(
 					{ each_piece.offsetX - each_xy.x, each_piece.offsetY - each_xy.y }

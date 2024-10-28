@@ -1,4 +1,4 @@
-#include "../Common.h"
+#include "./Common.h"
 #include "algorithm/solver.h"
 
 int main(int argc, char *argv[]) {
